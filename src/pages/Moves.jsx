@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // import { ProductList } from "../components/ProductList";
 import { SearchBox } from '../components/SearchBox';
@@ -18,23 +18,19 @@ export const Moves = () => {
     setSearchParams(nextParams);
   };
 
-  useEffect(() => {
-    // Тут выполняем асинхронную операцию,
-    // например HTTP-запрос за информацией о пользователе
+  async function fetchMoves(moveName) {
     if (moveName === '') return;
-
-    async function fetchMoves() {
-      const moves = await getMoves(moveName);
-      console.log(moves);
-      setMovesState(moves);
-    }
-
-    fetchMoves();
-  }, [moveName]);
+    const moves = await getMoves(moveName);
+    console.log(moves);
+    setMovesState(moves);
+  }
 
   return (
     <main>
       <SearchBox value={moveName} onChange={updateQueryString} />
+      <button type={'submit'} onClick={() => fetchMoves(moveName)}>
+        Search
+      </button>
       <ul>
         {movesState.map(move => (
           <li key={move.id}>
