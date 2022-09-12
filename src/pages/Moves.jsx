@@ -38,7 +38,12 @@ export const Moves = () => {
       <ul>
         {movesState.map(move => (
           <li key={move.id}>
-            <img src={`${move.poster_path}`} alt={move.title} width="240" />
+            <img
+              src={`https://image.tmdb.org/t/p/w500${move.poster_path}`}
+              alt={move.title}
+              width="240"
+            />
+            <p>{move.title}</p>
           </li>
         ))}
       </ul>
