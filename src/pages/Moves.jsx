@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // import { ProductList } from "../components/ProductList";
 import { SearchBox } from '../components/SearchBox';
-import getMoves from './../API/GetMoves';
+import { getSearchMoves } from '../API/GetMoves';
 
 export const Moves = () => {
   const [movesState, setMovesState] = useState([]);
@@ -20,7 +20,7 @@ export const Moves = () => {
 
   async function fetchMoves(moveName) {
     if (moveName === '') return;
-    const moves = await getMoves(moveName);
+    const moves = await getSearchMoves(moveName);
     console.log(moves);
     setMovesState(moves);
   }

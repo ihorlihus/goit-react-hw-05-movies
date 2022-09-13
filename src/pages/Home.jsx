@@ -1,12 +1,36 @@
+import { getTrandMoves } from '../API/GetMoves';
+import { useState, useEffect } from 'react';
+
 export const Home = () => {
+  const [trandMovesState, setTrendMovesState] = useState([]);
+
+  async function fetchTrendMoves() {
+    const moves = await getTrandMoves();
+    console.log(moves);
+    setTrendMovesState(moves);
+  }
+
+  useEffect(() => {
+    fetchTrendMoves();
+  }, []);
+
+  // fetchTrendMoves();
+
   return (
     <main>
       <h1>Welcome</h1>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto,
-        laboriosam placeat incidunt rem illum animi nemo quibusdam quia
-        voluptatum voluptate.
-      </p>
+      <ul>
+        {trandMovesState.map(move => (
+          <li key={move.id}>
+            <img
+              src={`https://image.tmdb.org/t/p/w500${move.poster_path}`}
+              alt={move.title}
+              width="240"
+            />
+            <p>{move.title}</p>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 };
