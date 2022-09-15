@@ -1,12 +1,13 @@
-import { getTrandMoves } from '../API/GetMoves';
+import { getTrandMovies } from '../API/GetMoves';
 import { useState, useEffect } from 'react';
+import { MovieItem } from '../components/MovieItem';
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
   const [trandMovesState, setTrendMovesState] = useState([]);
 
   async function fetchTrendMoves() {
-    const moves = await getTrandMoves();
-    console.log(moves);
+    const moves = await getTrandMovies();
     setTrendMovesState(moves);
   }
 
@@ -14,21 +15,14 @@ export const Home = () => {
     fetchTrendMoves();
   }, []);
 
-  // fetchTrendMoves();
-
   return (
     <main>
       <h1>Welcome</h1>
       <ul>
-        {trandMovesState.map(move => (
-          <li key={move.id}>
-            <img
-              src={`https://image.tmdb.org/t/p/w500${move.poster_path}`}
-              alt={move.title}
-              width="240"
-            />
-            <p>{move.title}</p>
-          </li>
+        {trandMovesState.map(movie => (
+          <Link to={`/moves/${movie.id}`} key={movie.id}>
+            {MovieItem(movie)}
+          </Link>
         ))}
       </ul>
     </main>

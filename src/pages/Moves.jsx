@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams, Link } from 'react-router-dom';
 // import { ProductList } from "../components/ProductList";
 import { SearchBox } from '../components/SearchBox';
-import { getSearchMoves } from '../API/GetMoves';
+import { getSearchMovies } from '../API/GetMoves';
+import { MovieItem } from '../components/MovieItem';
 
 export const Moves = () => {
   const [movesState, setMovesState] = useState([]);
@@ -20,8 +21,7 @@ export const Moves = () => {
 
   async function fetchMoves(moveName) {
     if (moveName === '') return;
-    const moves = await getSearchMoves(moveName);
-    console.log(moves);
+    const moves = await getSearchMovies(moveName);
     setMovesState(moves);
   }
 
@@ -31,16 +31,12 @@ export const Moves = () => {
       <button type={'submit'} onClick={() => fetchMoves(moveName)}>
         Search
       </button>
+      <Outlet />
       <ul>
-        {movesState.map(move => (
-          <li key={move.id}>
-            <img
-              src={`https://image.tmdb.org/t/p/w500${move.poster_path}`}
-              alt={move.title}
-              width="240"
-            />
-            <p>{move.title}</p>
-          </li>
+        {movesState.map(movie => (
+          <Link to={`${movie.id}`} key={movie.id}>
+            {MovieItem(movie)}
+          </Link>
         ))}
       </ul>
       {/* <ProductList products={visibleMoves} /> */}
