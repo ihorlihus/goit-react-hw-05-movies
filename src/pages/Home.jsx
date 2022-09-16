@@ -1,10 +1,11 @@
 import { getTrandMovies } from '../API/GetMoves';
 import { useState, useEffect } from 'react';
 import { MovieItem } from '../components/MovieItem';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Home = () => {
   const [trandMovesState, setTrendMovesState] = useState([]);
+  const location = useLocation();
 
   async function fetchTrendMoves() {
     const moves = await getTrandMovies();
@@ -20,7 +21,11 @@ export const Home = () => {
       <h1>Welcome</h1>
       <ul>
         {trandMovesState.map(movie => (
-          <Link to={`/moves/${movie.id}`} key={movie.id}>
+          <Link
+            to={`/movies/${movie.id}`}
+            key={movie.id}
+            state={{ from: location }}
+          >
             {MovieItem(movie)}
           </Link>
         ))}

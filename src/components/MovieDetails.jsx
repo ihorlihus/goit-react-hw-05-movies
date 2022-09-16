@@ -1,10 +1,11 @@
 import { getMoviesBuId } from 'API/GetMoves';
 import { useState, useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 
 export const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     getMoviesBuId(movieId).then(setMovie);
@@ -15,9 +16,11 @@ export const MovieDetails = () => {
   }
 
   const { poster_path, title, vote_average, overview, genres } = movie;
+  const goBackHref = location.state?.from ?? '/';
 
   return (
     <div>
+      <Link to={goBackHref}>Go back</Link>
       <div>
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
