@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Outlet, useSearchParams, Link, useLocation } from 'react-router-dom';
 // import { ProductList } from "../components/ProductList";
 import { SearchBox } from '../components/SearchBox';
