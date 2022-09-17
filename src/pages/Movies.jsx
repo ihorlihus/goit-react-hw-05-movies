@@ -7,29 +7,31 @@ import { MovieItem } from '../components/MovieItem';
 
 export const Movies = () => {
   const [movesState, setMovesState] = useState([]);
-  const [searchMovieQwerry, setSearchMovieQwerry] = useState('');
+  // const [searchMovieQwerry, setSearchMovieQwerry] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const moveName = searchParams.get('name') ?? '';
   const location = useLocation();
-
-  useEffect(() => {
-    fetchMoves(searchMovieQwerry);
-  }, [searchMovieQwerry]);
 
   const updateQueryString = name => {
     const nextParams = name !== '' ? { name } : {};
     setSearchParams(nextParams);
   };
 
-  async function fetchMoves(moveName) {
-    if (searchMovieQwerry === '') return;
-    const moves = await getSearchMovies(searchMovieQwerry);
+  // useEffect(() => {
+  //   if (searchMovieQwerry === '') return;
+  //   getSearchMovies(searchMovieQwerry).then(moves => setMovesState());
+  // }, [searchMovieQwerry]);
+
+  async function fetchMoves() {
+    if (moveName === '') return;
+    const moves = await getSearchMovies(moveName);
     setMovesState(moves);
   }
 
   const onSummit = event => {
     event.preventDefault();
-    setSearchMovieQwerry(moveName);
+    fetchMoves(moveName);
+    // setSearchMovieQwerry(moveName);
   };
 
   return (
