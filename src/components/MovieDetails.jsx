@@ -2,7 +2,7 @@ import { getMoviesBuId } from 'API/GetMoves';
 import { useState, useEffect } from 'react';
 import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
@@ -42,3 +42,5 @@ export const MovieDetails = () => {
     </div>
   );
 };
+
+export default MovieDetails;

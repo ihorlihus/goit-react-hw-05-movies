@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams, Link, useLocation } from 'react-router-dom';
 // import { ProductList } from "../components/ProductList";
-import { SearchBox } from '../components/SearchBox';
+// import { SearchBox } from '../components/SearchBox';
 import { getSearchMovies } from '../API/GetMoves';
 import { MovieItem } from '../components/MovieItem';
+import Loader from './../components/Loeder';
 
-export const Movies = () => {
+const Movies = () => {
   const [movesState, setMovesState] = useState([]);
-  // const [searchMovieQwerry, setSearchMovieQwerry] = useState('');
+  const [searchMovieQwerry, setSearchMovieQwerry] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
+  const [loader, setLoader] = useState(false);
   const moveName = searchParams.get('name') ?? '';
   const location = useLocation();
 
@@ -17,44 +19,49 @@ export const Movies = () => {
     setSearchParams(nextParams);
   };
 
-  // useEffect(() => {
-  //   if (searchMovieQwerry === '') return;
-  //   getSearchMovies(searchMovieQwerry).then(moves => setMovesState());
-  // }, [searchMovieQwerry]);
+  useEffect(() => {
+    if (searchMovieQwerry === '') {
+      return;
+    } else {
+      setLoader(true);
+      getSearchMovies(searchMovieQwerry)
+        .then(movies => setMovesState(movies))
+        .finally(setLoader(false));
+    }
+  }, [searchMovieQwerry]);
 
-  async function fetchMoves() {
-    if (moveName === '') return;
-    const moves = await getSearchMovies(moveName);
-    setMovesState(moves);
-  }
-
-  // const filteredPlanets = useMemo(
-  //   () => planets.filter(planet => planet.includes(query)),
-  //   [planets, query]
-  // );
+  useEffect(() => {
+    if (moveName !== '') {
+      setSearchMovieQwerry(moveName);
+    }
+  }, [moveName]);
 
   const onSummit = event => {
     event.preventDefault();
-    fetchMoves(moveName);
-    // setSearchMovieQwerry(moveName);
+    const value = event.target.name.value;
+    setSearchMovieQwerry(value);
+    updateQueryString(value);
+    event.target.reset();
   };
 
   return (
     <main>
-      <form>
-        <SearchBox value={moveName} onChange={updateQueryString} />
-        <button type={'submit'} onClick={onSummit}>
-          Search
-        </button>
+      <form onSubmit={onSummit}>
+        <input type="text" name="name" placeholder="Search movies..." />
+        <button type={'submit'}>Search</button>
       </form>
+      {loader && <Loader />}
       <Outlet />
       <ul>
-        {movesState.map(movie => (
-          <Link to={`${movie.id}`} key={movie.id} state={{ from: location }}>
-            {MovieItem(movie)}
-          </Link>
-        ))}
+        {movesState &&
+          movesState.map(movie => (
+            <Link to={`${movie.id}`} key={movie.id} state={{ from: location }}>
+              {MovieItem(movie)}
+            </Link>
+          ))}
       </ul>
     </main>
   );
 };
+
+export default Movies;

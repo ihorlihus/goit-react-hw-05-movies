@@ -18,13 +18,13 @@ export const Home = () => {
 
   return (
     <main>
-      <h1>Welcome</h1>
       <ul>
         {trandMovesState.map(movie => (
           <Link
             to={`/movies/${movie.id}`}
             key={movie.id}
             state={{ from: location }}
+            display="grid"
           >
             {MovieItem(movie)}
           </Link>

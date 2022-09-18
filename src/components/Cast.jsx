@@ -2,7 +2,7 @@ import { getMovieActorsBuId } from 'API/GetMoves';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [actors, setActors] = useState([]);
 
@@ -31,3 +31,5 @@ export const Cast = () => {
     </ul>
   );
 };
+
+export default Cast;
