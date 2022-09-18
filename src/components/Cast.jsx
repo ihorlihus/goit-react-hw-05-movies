@@ -15,19 +15,23 @@ const Cast = () => {
   }
   return (
     <ul>
-      {actors.map(({ id, profile_path, name, character }) => (
-        <li key={id}>
-          {profile_path && (
-            <img
-              src={`https://image.tmdb.org/t/p/w500${profile_path}`}
-              alt={name}
-              width="120"
-            />
-          )}
-          <p>{name}</p>
-          <p>Character: {character}</p>
-        </li>
-      ))}
+      {actors.length > 0 ? (
+        actors.map(({ id, profile_path, name, character }) => (
+          <li key={id}>
+            {profile_path && (
+              <img
+                src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                alt={name}
+                width="120"
+              />
+            )}
+            <p>{name}</p>
+            <p>Character: {character}</p>
+          </li>
+        ))
+      ) : (
+        <p>No cast</p>
+      )}
     </ul>
   );
 };
