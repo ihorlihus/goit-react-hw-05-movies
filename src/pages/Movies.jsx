@@ -28,6 +28,11 @@ export const Movies = () => {
     setMovesState(moves);
   }
 
+  // const filteredPlanets = useMemo(
+  //   () => planets.filter(planet => planet.includes(query)),
+  //   [planets, query]
+  // );
+
   const onSummit = event => {
     event.preventDefault();
     fetchMoves(moveName);
