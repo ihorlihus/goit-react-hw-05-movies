@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams, Link, useLocation } from 'react-router-dom';
-// import { ProductList } from "../components/ProductList";
-// import { SearchBox } from '../components/SearchBox';
 import { getSearchMovies } from '../API/GetMoves';
 import { MovieItem } from '../components/MovieItem';
 import Loader from './../components/Loeder';
@@ -53,12 +51,11 @@ const Movies = () => {
       {loader && <Loader />}
       <Outlet />
       <ul>
-        {movesState &&
-          movesState.map(movie => (
-            <Link to={`${movie.id}`} key={movie.id} state={{ from: location }}>
-              {MovieItem(movie)}
-            </Link>
-          ))}
+        {movesState?.map(movie => (
+          <Link to={`${movie.id}`} key={movie.id} state={{ from: location }}>
+            {MovieItem(movie)}
+          </Link>
+        ))}
       </ul>
     </main>
   );

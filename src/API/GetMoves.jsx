@@ -58,5 +58,3 @@ export async function getReview(movieId) {
   const movie = await responce.data.results;
   return movie;
 }
-
-// getMoves('batman').then(res => console.log(res));
